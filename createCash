@@ -1,3 +1,13 @@
+async function main(){
+  // технический метод для остановки времени
+  const sleep = async (n) => new Promise((resolve) => setTimeout(resolve, n))
+
+  let counter = 0  // Изменено с const на let, чтобы можно было изменять
+
+  function func(){
+      return ++counter
+  }
+  
   // функция кэширования с временем жизни
   function createCash(fn, ttl) {
       let cachedValue = null;
@@ -15,3 +25,17 @@
           return cachedValue;
       };
   }
+
+  // пример использования
+  const myCash = createCash(func, 1000) // функция принимает на вход функцию для вызова, и время через которое значение становится неактуальным
+
+  await sleep(1000)
+  console.log(myCash()) // 1
+  console.log(myCash()) // 1
+
+  await sleep(3000)
+  console.log(myCash()) // 2
+  console.log(myCash()) // 2
+}
+
+main()
