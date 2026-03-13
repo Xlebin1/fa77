@@ -1,0 +1,17 @@
+  // функция кэширования с временем жизни
+  function createCash(fn, ttl) {
+      let cachedValue = null;
+      let lastCallTime = 0;
+      
+      return function() {
+          const currentTime = Date.now();
+          
+          // Если кэш пуст или время жизни истекло
+          if (cachedValue === null || currentTime - lastCallTime > ttl) {
+              cachedValue = fn(); // вызываем оригинальную функцию
+              lastCallTime = currentTime; // обновляем время последнего вызова
+          }
+          
+          return cachedValue;
+      };
+  }
